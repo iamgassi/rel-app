@@ -6,29 +6,27 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
 
-      {/* Header */}
       <Header />
 
       <div className="p-6 space-y-10">
 
-        {/* Hero Section (NEW - important) */}
+        {/* Hero */}
         <section className="text-center space-y-4">
           <h1 className="text-3xl font-bold">
             Never Miss Important Moments 🎉
           </h1>
           <p className="text-muted-foreground">
-            Smart reminders + AI gift suggestions for your loved ones
+            Smart reminders + AI gift suggestions
           </p>
         </section>
 
-        {/* Upcoming Events */}
+        {/* Events */}
         <section>
           <h2 className="text-xl font-semibold mb-4">
             Upcoming Events
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
             <EventCard
               title="Rahul's Birthday"
               subtitle="2 Days Left"
@@ -40,7 +38,6 @@ export default function Home() {
               subtitle="5 Days Left"
               action="View Suggestions →"
             />
-
           </div>
         </section>
 
