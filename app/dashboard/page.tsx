@@ -27,7 +27,7 @@ export default function Dashboard() {
 
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">
-          Hi Jasmeet 👋
+          Hi Gaurav Gassi 👋
         </h1>
 
         <AddReminderModal onAdd={addReminder} />
