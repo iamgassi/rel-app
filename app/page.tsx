@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Header from "@/components/Header";
 import EventCard from "@/components/EventCard";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,15 +29,25 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <EventCard
-              title="Rahul's Birthday"
-              subtitle="2 Days Left"
-              action="View Suggestions →"
+              name="Rahul"
+              occasion="Birthday"
+              date="2 Days Left"
+              action={
+                <Link href="/dashboard" className="hover:underline">
+                  View Suggestions →
+                </Link>
+              }
             />
 
             <EventCard
-              title="Mom Anniversary"
-              subtitle="5 Days Left"
-              action="View Suggestions →"
+              name="Mom"
+              occasion="Anniversary"
+              date="5 Days Left"
+              action={
+                <Link href="/dashboard" className="hover:underline">
+                  View Suggestions →
+                </Link>
+              }
             />
           </div>
         </section>

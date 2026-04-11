@@ -8,6 +8,7 @@ export interface Reminder {
   relation: string;
   occasion: string;
   date: Date;
+  notes: string;
 }
 
 export function useReminders() {
@@ -21,6 +22,7 @@ export function useReminders() {
       const parsed = JSON.parse(stored).map((r: any) => ({
         ...r,
         date: new Date(r.date),
+        notes: typeof r.notes === "string" ? r.notes : "",
       }));
       setReminders(parsed);
     }
@@ -38,5 +40,23 @@ export function useReminders() {
     });
   };
 
-  return { reminders, addReminder };
+  const deleteReminder = (id: number) => {
+    setReminders((prev) => {
+        const updated = prev.filter((r) => r.id !== id);
+        localStorage.setItem("reminders", JSON.stringify(updated));
+        return updated;
+    });
+  };
+
+  const updateReminder = (id: number, next: Omit<Reminder, "id">) => {
+    setReminders((prev) => {
+      const updated = prev.map((r) =>
+        r.id === id ? { ...next, id } : r
+      );
+      saveToStorage(updated);
+      return updated;
+    });
+  };
+
+  return { reminders, addReminder, deleteReminder, updateReminder };
 }

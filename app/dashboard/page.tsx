@@ -1,21 +1,26 @@
 "use client";
 
+import { useState } from "react";
+
 import AppLayout from "@/components/layout/AppLayout";
 import StatCard from "@/components/StatCard";
 import EventCard from "@/components/EventCard";
 import AddReminderModal from "@/components/AddReminderModal";
+import ReminderFormDialog from "@/components/ReminderFormDialog";
 
-import { useReminders } from "@/hooks/useReminders";
+import { useReminders, type Reminder } from "@/hooks/useReminders";
 import { formatDate } from "@/utils/formatDate";
+import { sortReminders } from "@/utils/sortReminders";
 
 import { Bell, AlertCircle, Gift } from "lucide-react";
 
 export default function Dashboard() {
-  const { reminders, addReminder } = useReminders();
+  const { reminders, addReminder, deleteReminder, updateReminder } =
+    useReminders();
 
-  const sortedReminders = [...reminders].sort(
-    (a, b) => a.date.getTime() - b.date.getTime()
-  );
+  const [editing, setEditing] = useState<Reminder | null>(null);
+
+  const sortedReminders = sortReminders(reminders);
 
   return (
     <AppLayout>
@@ -45,12 +50,29 @@ export default function Dashboard() {
           {sortedReminders.slice(0, 3).map((r) => (
             <EventCard
               key={r.id}
-              title={`${r.name} - ${r.occasion}`}
-              subtitle={formatDate(r.date)}
+              name={r.name}
+              occasion={r.occasion}
+              date={formatDate(r.date)}
+              notes={r.notes}
+              onEdit={() => setEditing(r)}
+              onDelete={() => {
+                if (confirm("Delete this reminder?")) {
+                  deleteReminder(r.id);
+                }
+              }}
             />
           ))}
         </div>
       </div>
+
+      <ReminderFormDialog
+        open={editing != null}
+        onOpenChange={(open) => {
+          if (!open) setEditing(null);
+        }}
+        initialReminder={editing}
+        onUpdate={(id, data) => updateReminder(id, data)}
+      />
 
     </AppLayout>
   );
